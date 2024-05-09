@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+"use client"
+import { useEffect, useState } from 'react'
 
 const getReturnValues = (targetDate: number) => {
 
@@ -12,11 +13,15 @@ const getReturnValues = (targetDate: number) => {
     const minLefts = Math.floor((targetDate % dayMs) % hrMs / minMs)
     const secondLefts = Math.floor((targetDate % dayMs) % hrMs % minMs / secMs)
 
-    return [dayLefts, hourLefts, minLefts, secondLefts]
-
+    return [
+        dayLefts > 0 ? dayLefts : 0,
+        hourLefts > 0 ? hourLefts : 0,
+        minLefts > 0 ? minLefts : 0,
+        secondLefts > 0 ? secondLefts : 0
+    ]
 }
 
-const useCountdown = (targetDate: Date) => {
+export const useCountdown = (targetDate: Date) => {
     const currentDate = new Date();
     const [diffDate, setDiffDate] = useState(targetDate.getTime() - currentDate.getTime())
 
@@ -30,5 +35,3 @@ const useCountdown = (targetDate: Date) => {
     return getReturnValues(diffDate)
 
 }
-
-export { useCountdown }
